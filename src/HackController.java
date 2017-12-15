@@ -1,16 +1,39 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class HackController {
+import javax.swing.*;
 
-  public static void main(String[] args) {
-    // Objectives:
-    // - Run program, displays window with button to take screenshot
-    // - Screenshot is used to construct a model (takes in image, uses google api to parse it)
-    // -
-    // get screenshot of pic
+public class HackController implements ActionListener {
 
-    Trivia t = new Trivia("Courgette and aubergine are names for what kind of food?",
-            "cheese", "wine", "vegetables");
-    HackModel hack1 = new HackModel(t);
-    System.out.println(hack1.cheat(hack1.getTrivia()));
+  private HackModel model;
+  private HackView view;
+
+  public HackController(HackModel model, HackView view) {
+    this.model = model;
+    this.view = view;
+  }
+
+  public void run() {
+    this.view.addListeners(this);
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+
+    JButton button = (JButton) e.getSource();
+
+    switch (button.getActionCommand()) {
+      case "Max count":
+        view.setResult(model.cheat(new MaxCount()));
+        break;
+      case "Min count":
+        view.setResult(model.cheat(new MinCount()));
+        break;
+      case "Search type 3":
+
+        break;
+      default:
+        throw new IllegalArgumentException("How the fuck did u press this");
+    }
   }
 }
