@@ -1,3 +1,5 @@
+package hacker.model.strategies;
+
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -15,7 +17,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MinCount implements CountStrategy {
+public class MaxCount implements CountStrategy {
 
   private ArrayList<String> fillers = new ArrayList<>(Arrays.asList(
           //"the"
@@ -24,9 +26,9 @@ public class MinCount implements CountStrategy {
   @Override
   public String execute(Trivia t) {
     HashMap<String, Integer> counts = new HashMap<>();
-    counts.put(t.o1, 0);
-    counts.put(t.o2, 0);
-    counts.put(t.o3, 0);
+    counts.put(t.getO1(), 0);
+    counts.put(t.getO2(), 0);
+    counts.put(t.getO3(), 0);
     String query = constructQuery(t);
 
     for (Map.Entry<String, Integer> e : counts.entrySet()) {
@@ -52,23 +54,26 @@ public class MinCount implements CountStrategy {
     //return "OCCURENCES:\n1: " + counts.get(t.o1) + "\n2: " + counts.get(t.o2) + "\n3: " + counts.get(t.o3);
 
     //FOR DEBUGGING:
-    System.out.println("Option A: " + t.o1 + "\nOccurrences: " + counts.get(t.o1) + "\n");
-    System.out.println("Option B: " + t.o2 + "\nOccurrences: " + counts.get(t.o2) + "\n");
-    System.out.println("Option C: " + t.o3 + "\nOccurrences: " + counts.get(t.o3) + "\n");
+    System.out.println("Option A: " + t.getO1() + "\nOccurrences: " + counts.get(t.getO1()) + "\n");
+    System.out.println("Option B: " + t.getO2() + "\nOccurrences: " + counts.get(t.getO2()) + "\n");
+    System.out.println("Option C: " + t.getO3() + "\nOccurrences: " + counts.get(t.getO3()) + "\n");
 
-    if (counts.get(t.o1) < counts.get(t.o2) && counts.get(t.o1) < counts.get(t.o3)) {
-      return t.o1;
+    if (counts.get(t.getO1()) > counts.get(t.getO2())
+            && counts.get(t.getO1()) > counts.get(t.getO3())) {
+      return t.getO1();
     }
-    if (counts.get(t.o2) < counts.get(t.o1) && counts.get(t.o2) < counts.get(t.o3)) {
-      return t.o2;
+    if (counts.get(t.getO2()) > counts.get(t.getO1())
+            && counts.get(t.getO2()) > counts.get(t.getO3())) {
+      return t.getO2();
+    } else {
+      return t.getO3();
     }
-    else {
-      return t.o3;
-    }
+
   }
 
   private String constructQuery(Trivia t) {
-    ArrayList<String> questionArray = new ArrayList<String>(Arrays.asList(t.question.split(" ")));
+    ArrayList<String> questionArray =
+            new ArrayList<String>(Arrays.asList(t.getQuestion().split(" ")));
     // because items can't be removed while iterating through
     ArrayList<String> toRemove = new ArrayList<>();
     for (String s : questionArray) {
