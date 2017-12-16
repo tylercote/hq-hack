@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MinCount implements CountStrategy {
+public class MaxCountQO implements CountStrategy {
 
   private ArrayList<String> fillers = new ArrayList<>(Arrays.asList(
           //"the"
@@ -30,17 +30,16 @@ public class MinCount implements CountStrategy {
     counts.put(t.getO2(), 0);
     counts.put(t.getO3(), 0);
     String query = constructQuery(t);
+    List<Result> results = search(query);
+    String content = "";
+    for (Result r : results) {
+      content = content.concat(r.getTitle() + " " + r.getSnippet() + " ");
+    }
+
+    //prints out content being checked
+    //System.out.println("Results for " + e.getKey() + " search ---------------------\n" + content + "\n");
 
     for (Map.Entry<String, Integer> e : counts.entrySet()) {
-      System.out.println("Query: " + query + " " + e.getKey() + "\n");
-      List<Result> results = search((query) + " " + e.getKey());
-      String content = "";
-      for (Result r : results) {
-        content = content.concat(r.getTitle() + " " + r.getSnippet() + " ");
-      }
-
-      //prints out content being checked
-      //System.out.println("Results for " + e.getKey() + " search ---------------------\n" + content + "\n");
 
       Pattern p = Pattern.compile(e.getKey().toLowerCase());
       Matcher m = p.matcher(content.toLowerCase());
@@ -55,21 +54,22 @@ public class MinCount implements CountStrategy {
     //return "OCCURENCES:\n1: " + counts.get(t.o1) + "\n2: " + counts.get(t.o2) + "\n3: " + counts.get(t.o3);
 
     //FOR DEBUGGING:
+    System.out.println("Query: " + query + "\n");
     System.out.println("Option A: " + t.getO1() + "\nOccurrences: " + counts.get(t.getO1()) + "\n");
     System.out.println("Option B: " + t.getO2() + "\nOccurrences: " + counts.get(t.getO2()) + "\n");
     System.out.println("Option C: " + t.getO3() + "\nOccurrences: " + counts.get(t.getO3()) + "\n");
 
-    if (counts.get(t.getO1()) < counts.get(t.getO2())
-            && counts.get(t.getO1()) < counts.get(t.getO3())) {
+    if (counts.get(t.getO1()) > counts.get(t.getO2())
+            && counts.get(t.getO1()) > counts.get(t.getO3())) {
       return t.getO1();
     }
-    if (counts.get(t.getO2()) < counts.get(t.getO1())
-            && counts.get(t.getO2()) < counts.get(t.getO3())) {
+    if (counts.get(t.getO2()) > counts.get(t.getO1())
+            && counts.get(t.getO2()) > counts.get(t.getO3())) {
       return t.getO2();
-    }
-    else {
+    } else {
       return t.getO3();
     }
+
   }
 
   private String constructQuery(Trivia t) {

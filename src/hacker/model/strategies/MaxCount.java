@@ -32,6 +32,7 @@ public class MaxCount implements CountStrategy {
     String query = constructQuery(t);
 
     for (Map.Entry<String, Integer> e : counts.entrySet()) {
+      System.out.println("Query: " + query + " " + e.getKey() + "\n");
       List<Result> results = search((query) + " " + e.getKey());
       String content = "";
       for (Result r : results) {
@@ -39,7 +40,7 @@ public class MaxCount implements CountStrategy {
       }
 
       //prints out content being checked
-      System.out.println("Results for " + e.getKey() + " search ---------------------\n" + content + "\n");
+      //System.out.println("Results for " + e.getKey() + " search ---------------------\n" + content + "\n");
 
       Pattern p = Pattern.compile(e.getKey().toLowerCase());
       Matcher m = p.matcher(content.toLowerCase());
@@ -54,6 +55,7 @@ public class MaxCount implements CountStrategy {
     //return "OCCURENCES:\n1: " + counts.get(t.o1) + "\n2: " + counts.get(t.o2) + "\n3: " + counts.get(t.o3);
 
     //FOR DEBUGGING:
+    //System.out.println("Query: " + query + "\n");
     System.out.println("Option A: " + t.getO1() + "\nOccurrences: " + counts.get(t.getO1()) + "\n");
     System.out.println("Option B: " + t.getO2() + "\nOccurrences: " + counts.get(t.getO2()) + "\n");
     System.out.println("Option C: " + t.getO3() + "\nOccurrences: " + counts.get(t.getO3()) + "\n");
