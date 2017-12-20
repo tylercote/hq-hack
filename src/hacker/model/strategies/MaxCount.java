@@ -19,9 +19,11 @@ import java.util.regex.Pattern;
 
 public class MaxCount implements CountStrategy {
 
+  /*
   private ArrayList<String> fillers = new ArrayList<>(Arrays.asList(
           //"the"
   ));
+  */
 
   @Override
   public String execute(Trivia t) {
@@ -32,16 +34,11 @@ public class MaxCount implements CountStrategy {
     String query = constructQuery(t);
 
     for (Map.Entry<String, Integer> e : counts.entrySet()) {
-      System.out.println("Query: " + query + " " + e.getKey() + "\n");
-      List<Result> results = search((query) + " " + e.getKey());
+      List<Result> results = search(query + " " + e.getKey());
       String content = "";
       for (Result r : results) {
         content = content.concat(r.getTitle() + " " + r.getSnippet() + " ");
       }
-
-      //prints out content being checked
-      //System.out.println("Results for " + e.getKey() + " search ---------------------\n" + content + "\n");
-
       Pattern p = Pattern.compile(e.getKey().toLowerCase());
       Matcher m = p.matcher(content.toLowerCase());
       int count = 0;
@@ -51,11 +48,6 @@ public class MaxCount implements CountStrategy {
       e.setValue(count);
     }
 
-    // Show title and URL of 1st result.
-    //return "OCCURENCES:\n1: " + counts.get(t.o1) + "\n2: " + counts.get(t.o2) + "\n3: " + counts.get(t.o3);
-
-    //FOR DEBUGGING:
-    //System.out.println("Query: " + query + "\n");
     System.out.println("Option A: " + t.getO1() + "\nOccurrences: " + counts.get(t.getO1()) + "\n");
     System.out.println("Option B: " + t.getO2() + "\nOccurrences: " + counts.get(t.getO2()) + "\n");
     System.out.println("Option C: " + t.getO3() + "\nOccurrences: " + counts.get(t.getO3()) + "\n");
@@ -73,11 +65,18 @@ public class MaxCount implements CountStrategy {
 
   }
 
+  /**
+   * Removes words deemed as "filler" from the question before searching.
+   *
+   * @param t the piece of trivia being analyzed
+   * @return the
+   */
   private String constructQuery(Trivia t) {
     ArrayList<String> questionArray =
             new ArrayList<String>(Arrays.asList(t.getQuestion().split(" ")));
     // because items can't be removed while iterating through
     ArrayList<String> toRemove = new ArrayList<>();
+          /*
     for (String s : questionArray) {
       for (String st : this.fillers) {
         if (st.equals(s)) {
@@ -85,12 +84,14 @@ public class MaxCount implements CountStrategy {
         }
       }
     }
+          */
     questionArray.removeAll(toRemove);
     return this.concatenator(questionArray);
   }
 
   /**
-   * Helper method to concatenate an array list of strings into one string (seperated by spaces)
+   * Helper method to concatenate an array list of strings into one string (separated by spaces)
+   *
    * @param words array list of words
    * @return string concatenation
    */
@@ -111,13 +112,13 @@ public class MaxCount implements CountStrategy {
    * Gets the results of the given search.
    */
   private List<Result> search(String s) {
-
     String ENGINE_ID = "008732300561582678887:5l5n1mvojly";
     String API_KEY = "AIzaSyCeIBZcBJiRpw3O2WGWPen_-_KI2ZkHLUU";
 
     Customsearch cs = null;
-    List<Result> resultList = null;
+    List<Result> resultList = new ArrayList<>();
 
+    //System.out.println("ugly red stuff here 1");
     try {
       cs = new Customsearch(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
         @Override
@@ -135,7 +136,6 @@ public class MaxCount implements CountStrategy {
     catch (Exception e) {
       e.printStackTrace();
     }
-
     try {
       Customsearch.Cse.List list = cs.cse().list(s);
       list.setKey(API_KEY);
@@ -146,7 +146,6 @@ public class MaxCount implements CountStrategy {
     catch (IOException e) {
       e.printStackTrace();
     }
-
     return resultList;
   }
 }
