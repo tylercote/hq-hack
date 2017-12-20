@@ -21,6 +21,7 @@ public class Count implements CountStrategy {
     counts.put(t.getO3(), Integer.valueOf(0));
     String query = t.getQuestion();
     CountStrategy.countsPerHitQuestionAnswer(counts, query);
+
     System.out.println("Option A: " + t.getO1() + " occurred " + counts.get(t.getO1()) + " times.\n");
     System.out.println("Option B: " + t.getO2() + " occurred " + counts.get(t.getO2()) + " times.\n");
     System.out.println("Option C: " + t.getO3() + " occurred " + counts.get(t.getO3()) + " times.\n");
