@@ -8,6 +8,9 @@ package hacker.model;
 import hacker.model.strategies.CountStrategy;
 import hacker.model.strategies.Trivia;
 
+/**
+ * The model interface. Bam ba bam bam!!
+ */
 public interface IHackModel {
   String cheat(CountStrategy var1) throws IllegalArgumentException;
 
