@@ -13,9 +13,6 @@ import hacker.model.strategies.Trivia;
 import hacker.view.HackView;
 import hacker.view.IHackView;
 
-/**
- * Runs the interactive hacker thing. Not really relevant right now.
- */
 public class MainFrame {
   public MainFrame() {
   }
