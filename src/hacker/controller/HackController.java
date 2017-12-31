@@ -81,7 +81,7 @@ public class HackController implements IHackController, ActionListener {
       s = (String)var7.next();
     }
 
-    return new Trivia(question, answersOnly.get(0), answersOnly.get(1), answersOnly.get(2));
+    return new Trivia(question, (String)answersOnly.get(0), (String)answersOnly.get(1), (String)answersOnly.get(2));
   }
 
   private List<File> changeAllScreenshotNamesToTrivia() {

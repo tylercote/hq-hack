@@ -11,4 +11,7 @@ public enum QuestionType {
   MINQO,
   MAX,
   MIN;
+
+  private QuestionType() {
+  }
 }
