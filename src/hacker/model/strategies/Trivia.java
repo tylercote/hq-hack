@@ -65,14 +65,23 @@ public class Trivia {
       q = q.substring(0, q.indexOf("\""));
       List<String> strings = new ArrayList(Arrays.asList(q.split("\\s")));
       if (strings.size() > 5) {
+        System.out.println("Using QUOTE SEARCH...");
         return QuestionType.QUOTE;
       }
     } else if (s.toLowerCase().contains("not") || s.toLowerCase().contains("never")) {
-      return !s.toLowerCase().contains("what is") ? QuestionType.MIN : QuestionType.MINQO;
+      if (!s.toLowerCase().contains("what is")) {
+        System.out.println("Using MINIMUM SEARCH...");
+        return QuestionType.MIN;
+      } else {
+        System.out.println("Using MINIMUM SEARCH, QUESTION ONLY...");
+        return QuestionType.MINQO;
+      }
     } else if (s.toLowerCase().contains("what is") || s.toLowerCase().contains("which of")
             || s.toLowerCase().contains("who is")) {
+      System.out.println("Using MAXIMUM SEARCH, QUESTION ONLY...");
       return QuestionType.MAXQO;
     }
+    System.out.println("Using MAXIMUM SEARCH...");
     return QuestionType.MAX;
   }
 }
