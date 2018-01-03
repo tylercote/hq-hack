@@ -1,18 +1,29 @@
 package hacker.model.strategies;
 
 import com.google.api.services.customsearch.model.Result;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
+
+/**
+ * Does the same as CountQuestionOnly, but loads the individual web pages that are produced as
+ * results to parse for more information.
+ */
 public class ComprehensiveCount implements CountStrategy {
   public boolean isMax;
 
+  /**
+   * Creates a new instance of this search.
+   *
+   * @param isMax whether we want max hits or min hits
+   */
   public ComprehensiveCount(boolean isMax) {
     this.isMax = isMax;
   }
 
+  @Override
   public String execute(Trivia t) {
     HashMap<String, Integer> counts = new HashMap();
     counts.put(t.getO1(), Integer.valueOf(0));
@@ -23,7 +34,7 @@ public class ComprehensiveCount implements CountStrategy {
     String content = "";
     List<String> urls = new ArrayList();
 
-    for(Result r : results) {
+    for (Result r : results) {
       content = content.concat(r.getTitle() + " " + r.getSnippet() + " ");
       String url = r.getLink();
       String newUrl;
@@ -60,7 +71,7 @@ public class ComprehensiveCount implements CountStrategy {
     System.out.println("Most likely answer: " + answer);
     System.out.println("=====================================================================");
     System.out.println("=====================================================================");
-    if ((double)counts.get(answer) >= 0.4D && sum > 1) {
+    if ((double) counts.get(answer) >= 0.4 && sum > 1) {
       return answer;
     } else {
       return CountStrategy.loadWebpages(this.isMax, t, counts, urls);

@@ -7,6 +7,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.customsearch.Customsearch;
 import com.google.api.services.customsearch.model.Result;
 import com.google.api.services.customsearch.model.Search;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +15,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+/**
+ * Interface to hold all the strategies we determine which queries we are searching for. I.e., for a
+ * negated question "Which of the following is NOT" we would generally default to checking for the
+ * minimum number of hits of a certain option. Conversely, "Which of the follow IS" would default to
+ * the option generating the maximum number of hits.
+ */
 public interface CountStrategy {
+
+  /**
+   * Executes the appropriate counting strategy for determining the correct answer to this piece of
+   * trivia.
+   *
+   * @param t the question and answer that we are searching about
+   * @return the correct answer!
+   */
   String execute(Trivia t);
 
+  /**
+   * Searched the given string on Google database with our search engine.
+   *
+   * @param s the string being searched
+   * @return a list of results of the search
+   */
   static List<Result> search(String s) {
     String ENGINE_ID = "012636751765660145571:km7onz6wa0k";
     String API_KEY = "AIzaSyA8LxFISBMsvjnXLfshdtQfQdin9LT4y7s\n";
@@ -54,6 +76,14 @@ public interface CountStrategy {
     return resultList;
   }
 
+  /**
+   * Returns the answer if we are looking for the result with the HIGHEST number of hits.
+   *
+   * @param counts a map detailing how many hits each string answer returned with a google search
+   * @param t      the piece of trivia we are dealing with, which contains the String keys as
+   *               answers
+   * @return the most likely answer based on the Google search
+   */
   static String maxCountResult(HashMap<String, Integer> counts, Trivia t) {
     String answer;
     if ((counts.get(t.getO1())) >= (counts.get(t.getO2()))
@@ -68,6 +98,14 @@ public interface CountStrategy {
     return answer;
   }
 
+  /**
+   * Returns the answer if we are looking for the result with the LOWEST number of hits.
+   *
+   * @param counts a map detailing how many hits each string answer returned with a google search
+   * @param t      the piece of trivia we are dealing with, which contains the String keys as
+   *               answers
+   * @return the most likely answer based on the Google search
+   */
   static String minCountResult(HashMap<String, Integer> counts, Trivia t) {
     String answer;
     if ((counts.get(t.getO1())) <= (counts.get(t.getO2()))
@@ -134,7 +172,20 @@ public interface CountStrategy {
     }
   }
 
-  static String loadWebpages(boolean isMax, Trivia t, HashMap<String, Integer> counts, List<String> urls) {
+  /**
+   * Loads web pages turned up by the Google search if the results are deemed not satisfactory to
+   * determine a confident answer.
+   *
+   * @param isMax  whether we are searching for a negated question (presence of NOT or NEVER) or
+   *               not
+   * @param t      the piece of trivia we are processing
+   * @param counts the map of question options to the number of hits each option has had,
+   *               cumulative
+   * @param urls   the list of urls we are loading
+   * @return the most likely answer, now based on loading urls in addition to the search
+   */
+  static String loadWebpages(boolean isMax, Trivia t, HashMap<String, Integer> counts,
+                             List<String> urls) {
     System.out.println("Now loading individual webpages...");
     int count = 0;
     for (String url : urls) {

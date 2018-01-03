@@ -1,18 +1,28 @@
 package hacker.model.strategies;
 
 import com.google.api.services.customsearch.model.Result;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * It doesn't get better than this. Same as Count but with loading web pages.
+ */
 public class EvenMoreComprehensiveCount implements CountStrategy {
   public boolean isMax;
 
+  /**
+   * Creates a new instance of this search.
+   *
+   * @param isMax whether we want max hits or min hits
+   */
   public EvenMoreComprehensiveCount(boolean isMax) {
     this.isMax = isMax;
   }
 
+  @Override
   public String execute(Trivia t) {
     HashMap<String, Integer> counts = new HashMap();
     counts.put(t.getO1(), Integer.valueOf(0));
@@ -60,7 +70,7 @@ public class EvenMoreComprehensiveCount implements CountStrategy {
     System.out.println("=====================================================================");
     System.out.println("=====================================================================");
 
-    if ((double)counts.get(answer) / sum >= 0.4 && sum > 1.0) {
+    if ((double) counts.get(answer) / sum >= 0.4 && sum > 1.0) {
       return answer;
     } else {
       return CountStrategy.loadWebpages(this.isMax, t, counts, urls);

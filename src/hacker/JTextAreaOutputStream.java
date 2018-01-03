@@ -5,10 +5,19 @@ import java.io.OutputStream;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+/**
+ * Thank you stackexchange.
+ */
 public class JTextAreaOutputStream extends OutputStream {
 
   private final JTextArea destination;
 
+  /**
+   * Creates a new instance of JTextAreaOutputStream which allows System.out to be set to the view's
+   * JTextArea.
+   *
+   * @param destination the JTextArea to be set as the output stream
+   */
   public JTextAreaOutputStream (JTextArea destination)
   {
     if (destination == null)

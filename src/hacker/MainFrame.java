@@ -8,6 +8,9 @@ import hacker.model.strategies.Trivia;
 import hacker.view.HackView;
 import hacker.view.IHackView;
 
+/**
+ * RUN THE HACKER
+ */
 public class MainFrame {
   public MainFrame() {
   }

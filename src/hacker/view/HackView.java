@@ -1,18 +1,26 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package hacker.view;
 
 import hacker.JTextAreaOutputStream;
+
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.PrintStream;
 import java.util.Objects;
 
-import javax.swing.*;
+import javax.swing.JTextArea;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.BoxLayout;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 
+/**
+ * Basic view that implements the IHackView interface, and displays the available searching options,
+ * and returns the result once the search has been completed.
+ */
 public class HackView extends JFrame implements IHackView {
   private JTextArea text;
   private JButton search1;
@@ -22,6 +30,9 @@ public class HackView extends JFrame implements IHackView {
   private JButton search5;
   private JLabel results;
 
+  /**
+   * Creates a new instance of HackView.
+   */
   public HackView() {
     JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -41,14 +52,23 @@ public class HackView extends JFrame implements IHackView {
     this.setVisible(true);
   }
 
+  @Override
   public void addListeners(ActionListener a) {
+    Objects.requireNonNull(a, "Action listeners cannot be null.");
+    search1.addActionListener(a);
+    search2.addActionListener(a);
+    search3.addActionListener(a);
+    search4.addActionListener(a);
+    search5.addActionListener(a);
   }
 
+  @Override
   public void setResult(String s) {
     Objects.requireNonNull(s, "Result string cannot be null.");
     this.results.setText(s);
   }
 
+  @Override
   public void setOut() {
     JTextAreaOutputStream out = new JTextAreaOutputStream(this.text);
     System.setOut(new PrintStream(out));

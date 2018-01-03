@@ -1,10 +1,19 @@
 package hacker.model.strategies;
 
 import com.google.api.services.customsearch.model.Result;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Runs a search and gets the most likely answer based on the MAXIMUM number of hits out of all of
+ * the available answer options. Conducts 1 search, which is the question ONLY. IMPORTANT: The use
+ * of this search is only for questions with an occurrence of "What is" within the question.
+ *
+ * NOTE: This search is pretty obsolete; ComprehensiveCount uses the same logic but searches
+ * deeper.
+ */
 public class CountQuestionOnly implements CountStrategy {
   boolean isMax;
 

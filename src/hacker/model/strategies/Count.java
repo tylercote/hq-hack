@@ -2,13 +2,29 @@ package hacker.model.strategies;
 
 import java.util.HashMap;
 
+
+/**
+ * Runs a search and gets the most likely answer based on the number of hits out of all of the
+ * available answer options. Conducts 3 searches as follows: Question + answer 1 Question + answer 2
+ * Question + answer 3.
+ *
+ *
+ * NOTE: This search is pretty obsolete; EvenMoreComprehensiveCount uses the same logic but searches
+ * deeper.
+ */
 public class Count implements CountStrategy {
   boolean isMax;
 
+  /**
+   * Returns the max-hitting option if true; else, returns the min-hitting option.
+   *
+   * @param isMax whether we return highest or lowest number of hits
+   */
   public Count(boolean isMax) {
     this.isMax = isMax;
   }
 
+  @Override
   public String execute(Trivia t) {
     HashMap<String, Integer> counts = new HashMap();
     counts.put(t.getO1(), Integer.valueOf(0));
