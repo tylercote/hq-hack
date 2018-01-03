@@ -308,7 +308,7 @@ public class TestCases {
     IHackModel m = new HackModel(new Trivia("", "", "", ""));
     IHackView v = new HackView();
     IHackController c = new HackController(m, v);
-    c.run();
+    c.run("Doesn't matter");
   }
 
   /**

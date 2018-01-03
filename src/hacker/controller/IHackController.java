@@ -6,7 +6,7 @@ import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
 public interface IHackController {
-  void run();
+  void run(String screenshotFolderPath);
 
   static String pictureToText(String filepath) {
     ITesseract instance = new Tesseract();
@@ -17,8 +17,8 @@ public interface IHackController {
     try {
       result = instance.doOCR(f);
       return result;
-    } catch (TesseractException var5) {
-      System.err.println(var5.getMessage());
+    } catch (TesseractException e) {
+      System.err.println(e.getMessage());
       return result;
     }
   }

@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package hacker.model.strategies;
 
 import com.google.api.services.customsearch.model.Result;
@@ -28,11 +23,10 @@ public class ComprehensiveCount implements CountStrategy {
     String content = "";
     List<String> urls = new ArrayList();
 
-    String newUrl;
-    for(Iterator var7 = results.iterator(); var7.hasNext(); urls.add(newUrl)) {
-      Result r = (Result)var7.next();
+    for(Result r : results) {
       content = content.concat(r.getTitle() + " " + r.getSnippet() + " ");
       String url = r.getLink();
+      String newUrl;
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
         if (url.startsWith("www")) {
           newUrl = "http://" + url;
@@ -42,6 +36,7 @@ public class ComprehensiveCount implements CountStrategy {
       } else {
         newUrl = url;
       }
+      urls.add(newUrl);
     }
 
     CountStrategy.countsPerHitQuestionOnly(counts, content);
@@ -56,10 +51,8 @@ public class ComprehensiveCount implements CountStrategy {
     }
 
     int sum = 0;
-
-    int i;
-    for(Iterator var13 = counts.values().iterator(); var13.hasNext(); sum += i) {
-      i = ((Integer)var13.next()).intValue();
+    for (int i : counts.values()) {
+      sum += i;
     }
 
     System.out.println("=====================================================================");
@@ -67,7 +60,7 @@ public class ComprehensiveCount implements CountStrategy {
     System.out.println("Most likely answer: " + answer);
     System.out.println("=====================================================================");
     System.out.println("=====================================================================");
-    if ((double)((Integer)counts.get(answer)).intValue() >= 0.4D && sum > 1) {
+    if ((double)counts.get(answer) >= 0.4D && sum > 1) {
       return answer;
     } else {
       return CountStrategy.loadWebpages(this.isMax, t, counts, urls);

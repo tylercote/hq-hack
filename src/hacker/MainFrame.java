@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package hacker;
 
 import hacker.controller.HackController;
@@ -19,12 +14,13 @@ public class MainFrame {
 
   public static void main(String[] args) {
     IHackView hackView = new HackView();
-    Trivia t = new Trivia("Courgette and aubergine are names for what kind of food?", "cheese", "wine", "vegetables");
-    IHackModel hack1 = new HackModel(t);
+    IHackModel hack1 = new HackModel(new Trivia("", "" ,"" ,""));
     IHackController controller = new HackController(hack1, hackView);
     hackView.setOut();
-    controller.run();
+    /*
+    Input the file path name of Dan's screenshot folder (he takes screenshots of questions - this
+    is the folder where they are saved, and where the program will repeatedly parse.
+     */
+    controller.run("/Users/Dan/Documents/HQScreenShots");
   }
 }
-
-// did i do it

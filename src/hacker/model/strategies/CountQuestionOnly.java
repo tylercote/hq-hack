@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package hacker.model.strategies;
 
 import com.google.api.services.customsearch.model.Result;
@@ -26,9 +21,8 @@ public class CountQuestionOnly implements CountStrategy {
     List<Result> results = CountStrategy.search(query);
     String content = "";
 
-    Result r;
-    for(Iterator var6 = results.iterator(); var6.hasNext(); content = content.concat(r.getTitle() + " " + r.getSnippet() + " ")) {
-      r = (Result)var6.next();
+    for (Result r : results) {
+      content = content.concat(r.getTitle() + " " + r.getSnippet() + " ");
     }
 
     CountStrategy.countsPerHitQuestionOnly(counts, content);

@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package hacker.model.strategies;
 
 import com.google.api.services.customsearch.model.Result;
@@ -27,10 +22,9 @@ public class EvenMoreComprehensiveCount implements CountStrategy {
     List<Result> results = CountStrategy.countsPerHitQuestionAnswer(counts, query);
     List<String> urls = new ArrayList();
 
-    String newUrl;
-    for(Iterator var6 = results.iterator(); var6.hasNext(); urls.add(newUrl)) {
-      Result r = (Result)var6.next();
+    for (Result r : results) {
       String url = r.getLink();
+      String newUrl;
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
         if (url.startsWith("www")) {
           newUrl = "http://" + url;
@@ -40,6 +34,7 @@ public class EvenMoreComprehensiveCount implements CountStrategy {
       } else {
         newUrl = url;
       }
+      urls.add(newUrl);
     }
 
     CountStrategy.countsPerHitQuestionAnswer(counts, query);
@@ -53,11 +48,10 @@ public class EvenMoreComprehensiveCount implements CountStrategy {
       answer = CountStrategy.minCountResult(counts, t);
     }
 
-    double sum = 0.0D;
-
-    double i;
-    for(Iterator var14 = counts.values().iterator(); var14.hasNext(); sum += i) {
-      i = (double)((Integer)var14.next()).intValue();
+    // calculate the total number of hits among all answers
+    double sum = 0;
+    for (double i : counts.values()) {
+      sum = sum + i;
     }
 
     System.out.println("=====================================================================");
@@ -66,7 +60,7 @@ public class EvenMoreComprehensiveCount implements CountStrategy {
     System.out.println("=====================================================================");
     System.out.println("=====================================================================");
 
-    if ((double)((Integer)counts.get(answer)).intValue() / sum >= 0.4D && sum > 1.0D) {
+    if ((double)counts.get(answer) / sum >= 0.4 && sum > 1.0) {
       return answer;
     } else {
       return CountStrategy.loadWebpages(this.isMax, t, counts, urls);
