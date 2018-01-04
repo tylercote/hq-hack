@@ -27,6 +27,7 @@ import javax.swing.JButton;
 public class HackController implements IHackController, ActionListener {
   private IHackModel model;
   private IHackView view;
+  private String currQuestion;
 
   // ============================== Some nerd shit for Tyler only ==============================
   private static Rectangle QUESTION_BOX = new Rectangle(450, 350, 700, 330);
@@ -54,6 +55,7 @@ public class HackController implements IHackController, ActionListener {
     Objects.requireNonNull(view);
     this.model = model;
     this.view = view;
+    this.currQuestion = "";
   }
 
   @Override
@@ -65,10 +67,13 @@ public class HackController implements IHackController, ActionListener {
       if (files.size() > 0) {
         String result = IHackController.pictureToText(screenshotFolderPath + "/trivia.png");
         Trivia t = this.createTriviaFromOCR(result);
-        System.out.println("Question is: " + t.getQuestion());
-        System.out.println("Options are: " + t.getO1() + ", " + t.getO2() + ", " + t.getO3());
-        IHackModel model = new HackModel(t);
-        model.cheat(model.getTrivia().getStrat());
+        if (!this.currQuestion.equals(t.getQuestion())) {
+          System.out.println("Question is: " + t.getQuestion());
+          this.currQuestion = t.getQuestion();
+          System.out.println("Options are: " + t.getO1() + ", " + t.getO2() + ", " + t.getO3());
+          IHackModel model = new HackModel(t);
+          model.cheat(model.getTrivia().getStrat());
+        }
       }
 
       try {

@@ -54,12 +54,15 @@ public class HackView extends JFrame implements IHackView {
 
   @Override
   public void addListeners(ActionListener a) {
+    // More nerd shit for Tyler
+    /*
     Objects.requireNonNull(a, "Action listeners cannot be null.");
     search1.addActionListener(a);
     search2.addActionListener(a);
     search3.addActionListener(a);
     search4.addActionListener(a);
     search5.addActionListener(a);
+    */
   }
 
   @Override
