@@ -32,7 +32,11 @@ public class QuoteSearch implements CountStrategy {
     System.out.println("Option C: " + t.getO3() + " occurred " + counts.get(t.getO3()) + " times.\n");
 
     String answer = CountStrategy.maxCountResult(counts, t);
+    System.out.println("=====================================================================");
+    System.out.println("=====================================================================");
     System.out.println("Most likely answer: " + answer);
+    System.out.println("=====================================================================");
+    System.out.println("=====================================================================");
     return answer;
   }
 

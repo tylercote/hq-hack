@@ -70,10 +70,10 @@ public class EvenMoreComprehensiveCount implements CountStrategy {
     System.out.println("=====================================================================");
     System.out.println("=====================================================================");
 
-    if ((double) counts.get(answer) / sum >= 0.4 && sum > 1.0) {
-      return answer;
-    } else {
+    //if ((double) counts.get(answer) / sum >= 0.4 && sum > 1.0) {
+    //  return answer;
+    //} else {
       return CountStrategy.loadWebpages(this.isMax, t, counts, urls);
-    }
+    //}
   }
 }

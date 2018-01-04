@@ -71,10 +71,11 @@ public class ComprehensiveCount implements CountStrategy {
     System.out.println("Most likely answer: " + answer);
     System.out.println("=====================================================================");
     System.out.println("=====================================================================");
-    if ((double) counts.get(answer) >= 0.4 && sum > 1) {
-      return answer;
-    } else {
+
+    //if ((double) counts.get(answer) >= 0.4 && sum > 1) {
+    //  return answer;
+    //} else {
       return CountStrategy.loadWebpages(this.isMax, t, counts, urls);
-    }
+    //}
   }
 }

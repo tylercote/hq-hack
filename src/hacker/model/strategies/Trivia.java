@@ -105,8 +105,7 @@ public class Trivia {
       }
     } else if (s.toLowerCase().contains("not") || s.toLowerCase().contains("never")) {
       return !s.toLowerCase().contains("what is") ? QuestionType.MIN : QuestionType.MINQO;
-    } else if (s.toLowerCase().contains("what is") || s.toLowerCase().contains("which of")
-            || s.toLowerCase().contains("who is")) {
+    } else if (s.toLowerCase().contains("what is") || s.toLowerCase().contains("who is")) {
       return QuestionType.MAXQO;
     }
     return QuestionType.MAX;
