@@ -1,7 +1,7 @@
 # hq-hack
 lel free money
 
-<b>DISCLAIMER<b>
+<b>DISCLAIMER<\b>
   Not to be actually used for live HQ Trivia games, since that violates their terms of service.  
 
 a not-that comprehensive trivia question solver
