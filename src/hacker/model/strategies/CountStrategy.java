@@ -5,6 +5,7 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.customsearch.Customsearch;
+import com.google.api.services.customsearch.Customsearch.*;
 import com.google.api.services.customsearch.model.Result;
 import com.google.api.services.customsearch.model.Search;
 
@@ -39,39 +40,58 @@ public interface CountStrategy {
   /**
    * Searched the given string on Google database with our search engine.
    *
-   * @param s the string being searched
+   * @param query the string being searched
    * @return a list of results of the search
    */
-  static List<Result> search(String s) {
+  static List<Result> search(String query) {
     String ENGINE_ID = "012636751765660145571:km7onz6wa0k";
     String API_KEY = "AIzaSyA8LxFISBMsvjnXLfshdtQfQdin9LT4y7s\n";
-    Customsearch cs = null;
+    Customsearch searchEngine = null;
     List<Result> resultList = new ArrayList();
 
     try {
-      cs = new Customsearch(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
-        public void initialize(HttpRequest httpRequest) throws IOException {
-          try {
-            httpRequest.setConnectTimeout(7000);
-            httpRequest.setReadTimeout(7000);
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
+      searchEngine = new Builder(new NetHttpTransport(),
+              new JacksonFactory(),
+              new HttpRequestInitializer() {
+                public void initialize(HttpRequest httpRequest) throws IOException {
+                  try {
+                    httpRequest.setConnectTimeout(7000);
+                    httpRequest.setReadTimeout(7000);
+                  } catch (Exception e) {
+                    e.printStackTrace();
+                  }
 
-        }
-      });
+                }
+              }).setApplicationName("Dan's search engine.").build();
+      /*
+      searchEngine =
+              new Customsearch(
+              new NetHttpTransport(),
+              new JacksonFactory(),
+              new HttpRequestInitializer() {
+                public void initialize(HttpRequest httpRequest) throws IOException {
+                  try {
+                    httpRequest.setConnectTimeout(7000);
+                    httpRequest.setReadTimeout(7000);
+                  } catch (Exception e) {
+                    e.printStackTrace();
+                  }
+
+                }
+              });
+      */
     } catch (Exception e) {
       e.printStackTrace();
     }
 
     try {
-      com.google.api.services.customsearch.Customsearch.Cse.List list = cs.cse().list(s);
-      list.setKey(API_KEY);
-      list.setCx(ENGINE_ID);
-      Search results = list.execute();
+      Customsearch.Cse.List search = searchEngine.cse().list(query);
+      search.setKey(API_KEY);
+      search.setCx(ENGINE_ID);
+      Search results = search.execute();
       resultList = results.getItems();
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println("Search failed. No results have been returned.");
     }
     return resultList;
   }
