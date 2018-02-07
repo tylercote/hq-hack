@@ -103,7 +103,8 @@ public class Trivia {
       if (strings.size() > 5) {
         return QuestionType.QUOTE;
       }
-    } else if (s.toLowerCase().contains("not") || s.toLowerCase().contains("never")) {
+    } else if (s.toLowerCase().contains("not") || s.toLowerCase().contains("never")
+        || s.toLowerCase().contains("least") || s.toLowerCase().contains("fewest"))) {
       return !s.toLowerCase().contains("what is") ? QuestionType.MIN : QuestionType.MINQO;
     } else if (s.toLowerCase().contains("what is") || s.toLowerCase().contains("who is")) {
       return QuestionType.MAXQO;
