@@ -1,5 +1,5 @@
 # hq-hack
-lel free money
+An assistant for the HQ Trivia game.
 
 # DISCLAIMER 
 Not to be actually used for live HQ Trivia games, since that violates their terms of service. <br> 
